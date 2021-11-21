@@ -7,6 +7,7 @@ function prepare () {
     # args
     local ENV_PATH=$1
     local CACHE_PACKAGE_PATH=$2
+    local LOCAL_PACKAGE_PATH=$3
 
     echo prepare $PACKAGE_NAME $PACKAGE_VER
 }
@@ -15,6 +16,7 @@ function build () {
     # args
     local ENV_PATH=$1
     local CACHE_PACKAGE_PATH=$2
+    local LOCAL_PACKAGE_PATH=$3
 
     echo build $PACKAGE_NAME $PACKAGE_VER
 }

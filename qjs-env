@@ -45,8 +45,8 @@ function clean () {
 function add () {
     local PACKAGE_NAME=$1
     local PACKAGE_REPO=$2
-    local CACHE_PACKAGE_PATH=".cache/$PACKAGE_NAME"
-    local LOCAL_PACKAGE_PATH="local/$PACKAGE_NAME"
+    local CACHE_PACKAGE_PATH=.cache/$PACKAGE_NAME
+    local LOCAL_PACKAGE_PATH=local/$PACKAGE_NAME
     
     # pull or clone
     if [ -d $CACHE_PACKAGE_PATH ]; then
