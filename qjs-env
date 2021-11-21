@@ -58,6 +58,9 @@ function add () {
         git clone $PACKAGE_REPO $CACHE_PACKAGE_PATH
     fi
 
+    # create local package directory
+    mkdir -p $LOCAL_PACKAGE_PATH
+
     # go to cache package directory
     cd $CACHE_PACKAGE_PATH
 
