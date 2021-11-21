@@ -72,6 +72,7 @@ cp .cache/quickjs-uv-cffi/examples/uv_timeout.js ./uv_timeout.js
 ## Remove Packages
 
 ```bash
+./qjs-env remove quickjs-uv-cffi
 ./qjs-env remove quickjs-fltk-cffi
 ./qjs-env remove quickjs-cffi
 ```
