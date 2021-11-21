@@ -65,10 +65,10 @@ function add () {
     cd $CACHE_PACKAGE_PATH
 
     # prepare
-    ./qjs-pkg prepare $ENV_PATH $CACHE_PACKAGE_PATH
+    ./qjs-pkg prepare $ENV_PATH $CACHE_PACKAGE_PATH $LOCAL_PACKAGE_PATH
 
     # build
-    ./qjs-pkg build $ENV_PATH $CACHE_PACKAGE_PATH
+    ./qjs-pkg build $ENV_PATH $CACHE_PACKAGE_PATH $LOCAL_PACKAGE_PATH
 
     # install
     ./qjs-pkg install $ENV_PATH $CACHE_PACKAGE_PATH $LOCAL_PACKAGE_PATH
