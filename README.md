@@ -49,11 +49,23 @@ Check if `qjs-cffi` is successfully installed:
 ```
 
 
+## Install Package: quickjs-uv-cffi
+
+```bash
+./qjs-env add quickjs-uv-cffi git@github.com:mtasic85/quickjs-uv-cffi.git
+```
+
+
 ## Run Local Program
 
 ```bash
-cp .cache/quickjs-fltk-cffi/hello.js ./hello-fltk.js
-./qjs hello-fltk.js
+cp .cache/quickjs-fltk-cffi/examples/fltk_hello.js ./fltk_hello.js
+./qjs fltk_hello.js
+```
+
+```bash
+cp .cache/quickjs-uv-cffi/examples/uv_timeout.js ./uv_timeout.js
+./qjs uv_timeout.js
 ```
 
 
