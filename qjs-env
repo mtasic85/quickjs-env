@@ -1,0 +1,91 @@
+#!/bin/bash
+
+ENV_PATH=$(realpath "./")
+
+function init () {
+    local LOCAL_QUICKJS_PATH=".cache/quickjs"
+
+    # prepare
+    mkdir -p .cache
+    mkdir -p local
+    
+    # clone
+    if [ -d $LOCAL_QUICKJS_PATH ]; then
+        echo -e "quickjs repo already cloned in '.cache' directory, skipping."
+    else
+        git clone git@github.com:bellard/quickjs.git $LOCAL_QUICKJS_PATH
+    fi
+
+    # make
+    if [ -f $LOCAL_QUICKJS_PATH/qjs ]; then
+        echo -e "qjs already built, skipping."
+    else
+        cd $LOCAL_QUICKJS_PATH
+
+        # prepare
+        make clean
+        
+        # build clean quickjs
+        make qjs
+
+        # copy binaries
+        cd $ENV_PATH
+        cp $LOCAL_QUICKJS_PATH/qjs ./qjs
+        cp $LOCAL_QUICKJS_PATH/qjsc ./qjsc
+    fi
+}
+
+function clean () {
+    rm -rf .cache/
+    rm -rf local
+    rm ./qjs
+    rm ./qjsc
+}
+
+function add () {
+    local PACKAGE_NAME=$1
+    local PACKAGE_REPO=$2
+    local CACHE_PACKAGE_PATH=".cache/$PACKAGE_NAME"
+    local LOCAL_PACKAGE_PATH="local/$PACKAGE_NAME"
+    
+    # pull or clone
+    if [ -d $CACHE_PACKAGE_PATH ]; then
+        echo -e "package directory '$CACHE_PACKAGE_PATH' already exists, cloning skipped, checking out latest code."
+        cd $CACHE_PACKAGE_PATH
+        git pull
+        cd $ENV_PATH
+    else
+        git clone $PACKAGE_REPO $CACHE_PACKAGE_PATH
+    fi
+
+    # go to cache package directory
+    cd $CACHE_PACKAGE_PATH
+
+    # prepare
+    ./qjs-pkg prepare $ENV_PATH $CACHE_PACKAGE_PATH
+
+    # build
+    ./qjs-pkg build $ENV_PATH $CACHE_PACKAGE_PATH
+
+    # install
+    ./qjs-pkg install $ENV_PATH $CACHE_PACKAGE_PATH $LOCAL_PACKAGE_PATH
+}
+
+function remove () {
+    local PACKAGE_NAME=$1
+    local CACHE_PACKAGE_PATH=".cache/$PACKAGE_NAME"
+    local LOCAL_PACKAGE_PATH="local/$PACKAGE_NAME"
+
+    # go to cache package directory
+    cd $CACHE_PACKAGE_PATH
+
+    # uninstall
+    ./qjs-pkg uninstall $ENV_PATH $CACHE_PACKAGE_PATH $LOCAL_PACKAGE_PATH
+
+    cd $ENV_PATH
+    rm -rf $CACHE_PACKAGE_PATH
+    rm -rf $LOCAL_PACKAGE_PATH
+}
+
+# dispatch function with args without $0 and $1
+echo $($1 ${@:2})
